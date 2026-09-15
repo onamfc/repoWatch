@@ -1,0 +1,36 @@
+{
+  "name": "repowatch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Slack notifications for pull requests across all of your GitHub repos, delivered by a GitHub App and a Cloudflare Worker.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "types": "wrangler types --include-runtime=false",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "tail": "wrangler tail"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.1.10",
+    "@cloudflare/workers-types": "^5.20260915.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.132.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "github",
+    "pull-request",
+    "slack",
+    "notifications",
+    "cloudflare-workers",
+    "github-app",
+    "webhook"
+  ]
+}

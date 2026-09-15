@@ -1,0 +1,8 @@
+# Copy this file to .dev.vars for local development (`npm run dev`).
+# In production, set these with `wrangler secret put <NAME>` -- never commit real values.
+
+# Slack incoming webhook URL for the channel that should receive notifications.
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/T000/B000/XXXX
+
+# The webhook secret you entered when creating the GitHub App.
+GITHUB_WEBHOOK_SECRET=change-me
