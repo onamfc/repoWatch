@@ -4,17 +4,17 @@
   "pull_request": {
     "number": 36,
     "title": "feat: add invite system with payment-gated reward & abuse guards",
-    "html_url": "https://github.com/onamfc/gavel/pull/36",
+    "html_url": "https://github.com/acme/widgets/pull/36",
     "body": "Adds an invite system.",
     "draft": false,
     "merged": false,
     "user": {
-      "login": "abhishakenp",
-      "html_url": "https://github.com/abhishakenp",
+      "login": "octocat",
+      "html_url": "https://github.com/octocat",
       "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4",
       "type": "User"
     },
-    "head": { "ref": "feat/invites", "repo": { "full_name": "abhishakenp/gavel" } },
+    "head": { "ref": "feat/invites", "repo": { "full_name": "octocat/widgets" } },
     "base": { "ref": "main" },
     "labels": [{ "name": "enhancement" }],
     "additions": 412,
@@ -23,13 +23,13 @@
     "created_at": "2026-07-29T14:03:00Z"
   },
   "repository": {
-    "full_name": "onamfc/gavel",
-    "html_url": "https://github.com/onamfc/gavel",
+    "full_name": "acme/widgets",
+    "html_url": "https://github.com/acme/widgets",
     "private": false
   },
   "sender": {
-    "login": "abhishakenp",
-    "html_url": "https://github.com/abhishakenp",
+    "login": "octocat",
+    "html_url": "https://github.com/octocat",
     "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4"
   }
 }

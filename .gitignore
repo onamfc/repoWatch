@@ -9,3 +9,6 @@ dist/
 .DS_Store
 .idea/
 .vscode/
+
+# Personal repo allowlist fed to `wrangler secret put WATCHED_REPOS`
+watched-repos.txt

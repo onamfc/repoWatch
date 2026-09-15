@@ -6,3 +6,7 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com/services/T000/B000/XXXX
 
 # The webhook secret you entered when creating the GitHub App.
 GITHUB_WEBHOOK_SECRET=change-me
+
+# Optional. Repos to watch, comma- or newline-separated ("owner/repo" or "owner/*").
+# Leave unset to watch every repo the App is installed on.
+# WATCHED_REPOS=acme/widgets,acme-labs/*

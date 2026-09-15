@@ -15,9 +15,9 @@ Cloudflare Worker  ──verify signature──▶ filter (repos, actions, autho
 
 A message like this in Slack the moment a PR is opened, reopened, or marked ready for review:
 
-> **New pull request** in [onamfc/gavel](https://github.com/onamfc/gavel)
+> **New pull request** in [acme/widgets](https://github.com/acme/widgets)
 > [#36 feat: add invite system with payment-gated reward & abuse guards](#)
-> 🧑 abhishakenp  ·  `abhishakenp/gavel:feat/invites` → `main`  ·  +412 −18 in 9 files  ·  `enhancement`
+> 🧑 octocat  ·  `octocat/widgets:feat/invites` → `main`  ·  +412 −18 in 9 files  ·  `enhancement`
 > [ View pull request ]  [ Files changed ]
 
 - Works for every repo the App is installed on, including repos you create later.
@@ -54,7 +54,14 @@ npx wrangler secret put GITHUB_WEBHOOK_SECRET
 npx wrangler secret put SLACK_WEBHOOK_URL
 ```
 
-Then edit `WATCHED_REPOS` in `wrangler.jsonc` (see [Configuration](#configuration)) and run `npm run deploy` again.
+By default the Worker notifies for every repo the App is installed on. To limit it, set `WATCHED_REPOS` either in `wrangler.jsonc` or, to keep your list out of git, as a secret:
+
+```bash
+printf 'acme/widgets\nacme-labs/*\n' > watched-repos.txt   # gitignored
+npx wrangler secret put WATCHED_REPOS < watched-repos.txt
+```
+
+See [Configuration](#configuration) for the format.
 
 ### 3. GitHub App
 
@@ -73,11 +80,11 @@ Open a pull request on any watched repo and it should appear in Slack within a s
 
 ## Configuration
 
-Non-secret settings live in `wrangler.jsonc` under `vars`. Redeploy after changing them.
+Settings live in `wrangler.jsonc` under `vars`. Redeploy after changing them. `WATCHED_REPOS` may instead be set as a secret so a personal repo list never enters version control.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `WATCHED_REPOS` | `[]` (everything) | Array of `owner/repo` or `owner/*`. Case-insensitive. Empty means every repo the App is installed on. |
+| `WATCHED_REPOS` | unset (everything) | `owner/repo` or `owner/*` entries, as a JSON array in `wrangler.jsonc` or a comma/newline-separated string when set as a secret. Case-insensitive. Unset or empty means every repo the App is installed on. Use one method, not both. |
 | `PR_ACTIONS` | `opened,reopened,ready_for_review` | Which `pull_request` actions notify. Add `closed` for merge/close messages, `synchronize` for every push. |
 | `NOTIFY_DRAFTS` | `false` | When false, draft PRs are silent until marked ready for review. |
 | `IGNORED_AUTHORS` | empty | GitHub logins to ignore, for example `yourname,dependabot[bot]`. |

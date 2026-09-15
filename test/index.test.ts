@@ -6,7 +6,16 @@ import { prEvent } from "./helpers";
 
 const SECRET = "test-webhook-secret";
 const SLACK = "https://hooks.slack.com/services/T000/B000/XXXX";
-const testEnv: Env = { ...env, SLACK_WEBHOOK_URL: SLACK, GITHUB_WEBHOOK_SECRET: SECRET };
+// Pin every setting so results never depend on a developer's local .dev.vars.
+const testEnv: Env = {
+  ...env,
+  SLACK_WEBHOOK_URL: SLACK,
+  GITHUB_WEBHOOK_SECRET: SECRET,
+  WATCHED_REPOS: "",
+  IGNORED_AUTHORS: "",
+  NOTIFY_DRAFTS: "false",
+  PR_ACTIONS: "opened,reopened,ready_for_review",
+};
 
 let slackCalls: { url: string; body: unknown }[];
 
@@ -71,9 +80,9 @@ describe("worker", () => {
   });
 
   it("skips PRs on repos outside the watch list", async () => {
-    const event = prEvent({ repository: { full_name: "onamfc/not-watched", html_url: "https://github.com/onamfc/not-watched", private: true } });
-    const res = await deliver("pull_request", event);
-    expect(await res.json()).toMatchObject({ ok: true, notified: false });
+    const event = prEvent({ repository: { full_name: "acme/not-watched", html_url: "https://github.com/acme/not-watched", private: true } });
+    const res = await deliver("pull_request", event, { env: { ...testEnv, WATCHED_REPOS: "acme/widgets" } });
+    expect(await res.json()).toMatchObject({ ok: true, notified: false, reason: "acme/not-watched not in WATCHED_REPOS" });
     expect(slackCalls).toHaveLength(0);
   });
 

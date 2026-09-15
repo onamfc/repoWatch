@@ -28,10 +28,10 @@ describe("loadConfig", () => {
   });
 
   it("reads overrides", () => {
-    const c = loadConfig({ ...secrets, PR_ACTIONS: "opened, closed", NOTIFY_DRAFTS: "true", IGNORED_AUTHORS: "Onamfc,dependabot[bot]", WATCHED_REPOS: ["A/b"] });
+    const c = loadConfig({ ...secrets, PR_ACTIONS: "opened, closed", NOTIFY_DRAFTS: "true", IGNORED_AUTHORS: "Acme-Dev,dependabot[bot]", WATCHED_REPOS: ["A/b"] });
     expect([...c.prActions]).toEqual(["opened", "closed"]);
     expect(c.notifyDrafts).toBe(true);
-    expect(c.ignoredAuthors.has("onamfc")).toBe(true);
+    expect(c.ignoredAuthors.has("acme-dev")).toBe(true);
     expect(c.ignoredAuthors.has("dependabot[bot]")).toBe(true);
     expect(c.watchedRepos).toEqual(["a/b"]);
   });
@@ -42,11 +42,11 @@ describe("isWatched", () => {
     expect(isWatched("any/repo", [])).toBe(true);
   });
   it("matches exact names case-insensitively", () => {
-    expect(isWatched("LinkForty/Core", ["linkforty/core"])).toBe(true);
-    expect(isWatched("LinkForty/cloud", ["linkforty/core"])).toBe(false);
+    expect(isWatched("Acme/Widgets", ["acme/widgets"])).toBe(true);
+    expect(isWatched("Acme/other", ["acme/widgets"])).toBe(false);
   });
   it("supports owner wildcards", () => {
-    expect(isWatched("xantus-ai/anything", ["xantus-ai/*"])).toBe(true);
-    expect(isWatched("other/anything", ["xantus-ai/*"])).toBe(false);
+    expect(isWatched("acme-labs/anything", ["acme-labs/*"])).toBe(true);
+    expect(isWatched("other/anything", ["acme-labs/*"])).toBe(false);
   });
 });

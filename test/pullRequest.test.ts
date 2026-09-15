@@ -8,7 +8,7 @@ const secrets = { SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/x", GITHU
 
 describe("evaluatePullRequest", () => {
   it("notifies for an opened PR on a watched repo", () => {
-    const d = evaluatePullRequest(prEvent(), loadConfig({ ...secrets, WATCHED_REPOS: "onamfc/gavel" }));
+    const d = evaluatePullRequest(prEvent(), loadConfig({ ...secrets, WATCHED_REPOS: "acme/widgets" }));
     expect(d.notify).toBe(true);
   });
 
@@ -18,12 +18,12 @@ describe("evaluatePullRequest", () => {
   });
 
   it("skips repos outside WATCHED_REPOS", () => {
-    const d = evaluatePullRequest(prEvent(), loadConfig({ ...secrets, WATCHED_REPOS: "onamfc/other" }));
+    const d = evaluatePullRequest(prEvent(), loadConfig({ ...secrets, WATCHED_REPOS: "acme/other" }));
     expect(d).toMatchObject({ notify: false, reason: expect.stringContaining("WATCHED_REPOS") });
   });
 
   it("skips ignored authors regardless of case", () => {
-    const d = evaluatePullRequest(prEvent(), loadConfig({ ...secrets, IGNORED_AUTHORS: "ABHISHAKENP" }));
+    const d = evaluatePullRequest(prEvent(), loadConfig({ ...secrets, IGNORED_AUTHORS: "OCTOCAT" }));
     expect(d).toMatchObject({ notify: false, reason: expect.stringContaining("ignored") });
   });
 
@@ -40,31 +40,31 @@ describe("evaluatePullRequest", () => {
 describe("buildPullRequestMessage", () => {
   it("produces a fallback text and Block Kit blocks with escaped content", () => {
     const m = buildPullRequestMessage(prEvent());
-    expect(m.text).toContain("New pull request in onamfc/gavel: #36");
-    expect(m.text).toContain("https://github.com/onamfc/gavel/pull/36");
+    expect(m.text).toContain("New pull request in acme/widgets: #36");
+    expect(m.text).toContain("https://github.com/acme/widgets/pull/36");
     expect(m.unfurl_links).toBe(false);
 
     const [section, context, actions] = m.blocks;
     expect(section).toMatchObject({ type: "section" });
     const sectionText = section?.type === "section" ? section.text.text : "";
-    expect(sectionText).toContain("*New pull request* in <https://github.com/onamfc/gavel|onamfc/gavel>");
+    expect(sectionText).toContain("*New pull request* in <https://github.com/acme/widgets|acme/widgets>");
     expect(sectionText).toContain("reward &amp; abuse guards");
 
     const contextText = context?.type === "context" ? context.elements.map((e) => ("text" in e ? e.text : "")).join(" ") : "";
-    expect(contextText).toContain("<https://github.com/abhishakenp|abhishakenp>");
-    expect(contextText).toContain("`abhishakenp/gavel:feat/invites` → `main`");
+    expect(contextText).toContain("<https://github.com/octocat|octocat>");
+    expect(contextText).toContain("`octocat/widgets:feat/invites` → `main`");
     expect(contextText).toContain("+412 −18 in 9 files");
     expect(contextText).toContain("`enhancement`");
     expect(contextText).not.toContain("Draft");
 
     expect(actions?.type === "actions" ? actions.elements.map((b) => b.url) : []).toEqual([
-      "https://github.com/onamfc/gavel/pull/36",
-      "https://github.com/onamfc/gavel/pull/36/files",
+      "https://github.com/acme/widgets/pull/36",
+      "https://github.com/acme/widgets/pull/36/files",
     ]);
   });
 
   it("omits the fork prefix for same-repo branches and flags drafts", () => {
-    const m = buildPullRequestMessage(prEvent({}, { draft: true, head: { ref: "fix/x", repo: { full_name: "onamfc/gavel" } }, labels: [] }));
+    const m = buildPullRequestMessage(prEvent({}, { draft: true, head: { ref: "fix/x", repo: { full_name: "acme/widgets" } }, labels: [] }));
     const context = m.blocks[1];
     const text = context?.type === "context" ? context.elements.map((e) => ("text" in e ? e.text : "")).join(" ") : "";
     expect(text).toContain("`fix/x` → `main`");

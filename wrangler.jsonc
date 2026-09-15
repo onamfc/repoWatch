@@ -18,53 +18,14 @@
     "NOTIFY_DRAFTS": "false",
     // Comma-separated GitHub logins whose PRs are ignored (e.g. your own, or bots).
     "IGNORED_AUTHORS": "",
-    // Which repositories to watch. Empty = every repo the GitHub App is installed on.
-    // Entries are "owner/repo" or "owner/*". Matching is case-insensitive.
-    "WATCHED_REPOS": [
-      "onamfc/52-for-52",
-      "onamfc/laravel-devlogger",
-      "onamfc/gravity-forms-clevertap-integration",
-      "onamfc/laravel-database-archiver",
-      "onamfc/laravel-route-visualizer",
-      "onamfc/eloquent-to-json-generator",
-      "onamfc/mcp-starter-template-ts",
-      "onamfc/video-transcoder",
-      "onamfc/github-non-follow-backs",
-      "onamfc/api-mocker",
-      "onamfc/developer-log",
-      "onamfc/github-follow-back",
-      "onamfc/package-analyzer",
-      "onamfc/npm-vulnerability-scanner",
-      "onamfc/vibe-coder-prompt-builder",
-      "onamfc/rag-chat",
-      "onamfc/mcp-github-integration",
-      "onamfc/agent-prompt-library",
-      "onamfc/security-scanner",
-      "onamfc/cheesebox",
-      "onamfc/img-optimize",
-      "onamfc/case-shift",
-      "onamfc/waypointjs",
-      "onamfc/stadium-lights",
-      "onamfc/branch-clean",
-      "onamfc/magic-calculator",
-      "onamfc/gavel",
-      "onamfc/disc-drive",
-      "onamfc/drizzle-soft-delete",
-      "onamfc/runner-404",
-      "onamfc/exitramp",
-      "onamfc/linear-archive",
-      "LinkForty/core",
-      "LinkForty/mobile-sdk-react-native",
-      "LinkForty/mobile-sdk-ios",
-      "LinkForty/mobile-sdk-android",
-      "LinkForty/mobile-sdk-expo",
-      "LinkForty/fliq",
-      "LinkForty/mcp-server",
-      "LinkForty/aasa-validator",
-      "LinkForty/og-preview",
-      "xantus-ai/Fleet",
-      "xantus-ai/wp-llms-plugin",
-      "xantus-ai/spec-seal"
-    ]
+    // Which repositories to watch, as "owner/repo" or "owner/*" (case-insensitive).
+    // Unset or empty = every repo the GitHub App is installed on.
+    //
+    // Either list them here, or keep the list out of version control by setting
+    // it as a secret instead (comma- or newline-separated):
+    //   npx wrangler secret put WATCHED_REPOS < watched-repos.txt
+    // Do not do both -- a var and a secret cannot share a name.
+    //
+    // "WATCHED_REPOS": ["acme/widgets", "acme-labs/*"]
   }
 }
